@@ -1,8 +1,9 @@
-import React from 'react';
-import './App.css';
-import {Component} from "./components/component";
-import {PureComponent} from "./components/pure-component";
-import {FunctionalComponent} from "./components/functional-component";
+import React from "react";
+import "./App.css";
+import { Component } from "./components/component";
+import { PureComponent } from "./components/pure-component";
+import { FunctionalComponent } from "./components/functional-component";
+import { Counter } from "./components/counter";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Component />
       <PureComponent />
       <FunctionalComponent />
+      <Counter startValue={0} />
     </div>
   );
 }
