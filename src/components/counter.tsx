@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react";
 
-type CounterProps = {
+interface CounterProps {
   startValue: number;
-};
+}
 
 export const Counter: FC<CounterProps> = ({ startValue = 0 }) => {
   const [counter, setCounter] = useState(startValue);
