@@ -1,0 +1,21 @@
+@import "../../palette.scss";
+
+.moviesContainer {
+  background: $black;
+  padding: 0 60px;
+  margin-bottom: 73px;
+}
+
+.foundItems {
+  display: flex;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: $white;
+  margin-bottom: 28px;
+}
+
+.span {
+    font-weight: 600;
+    margin-right: 5px;
+  }

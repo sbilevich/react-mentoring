@@ -1,0 +1,15 @@
+@import "../../palette.scss";
+
+.button {
+  border: none;
+  padding: 0;
+  width: 233px;
+  height: 57px;
+  background: $red;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: $white;
+}

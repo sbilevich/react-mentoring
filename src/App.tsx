@@ -1,19 +1,14 @@
-import React from "react";
-import "./App.css";
-import { Component } from "./components/component";
-import { PureComponent } from "./components/pure-component";
-import { FunctionalComponent } from "./components/functional-component";
-import { Counter } from "./components/counter";
+import { FooterComponent } from "components/footer-component/footer-component";
+import { HeaderComponent } from "components/header-component/header-component";
+import { MoviesComponent } from "components/movies-component/movies-component";
+import "./App.scss";
 
 function App() {
-  return (
-    <div className="App">
-      <Component />
-      <PureComponent />
-      <FunctionalComponent />
-      <Counter startValue={0} />
-    </div>
-  );
+  return <div className="App">
+    <HeaderComponent />
+    <MoviesComponent />
+    <FooterComponent />
+  </div>;
 }
 
 export default App;
