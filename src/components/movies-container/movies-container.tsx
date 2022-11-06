@@ -1,8 +1,8 @@
-import { ErrorBoundary } from "components/error-boundary/error-boundary";
-import { Menu } from "components/menu/menu";
-import { MockMoves } from "components/movie-items/mockMovies";
+import { ErrorBoundary } from 'components/error-boundary/error-boundary';
+import { Menu } from 'components/menu/menu';
+import { MockMoves } from 'components/movie-items/mockMovies';
 
-import styles from "./movies-container.module.scss";
+import styles from './movies-container.module.scss';
 
 export const MoviesContainer = () => {
   return (

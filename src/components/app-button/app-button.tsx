@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import styles from "./app-button.module.scss";
+import React, { FC } from 'react';
+import styles from './app-button.module.scss';
 
 interface AppButtonProps {
   text: string;
@@ -7,7 +7,7 @@ interface AppButtonProps {
 }
 
 export const AppButton: FC<AppButtonProps> = ({
-  text = "ok",
+  text = 'ok',
   onButtonClick,
 }) => (
   <button className={styles.button} onClick={onButtonClick}>

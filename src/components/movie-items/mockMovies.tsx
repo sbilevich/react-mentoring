@@ -1,7 +1,7 @@
-import { MovieCard } from "components/movie-card/movie-card";
-import movie1 from "../../assets/Movie1.jpg";
+import { MovieCard } from 'components/movie-card/movie-card';
+import movie1 from '../../assets/Movie1.jpg';
 
-import styles from "./movie-items.module.scss";
+import styles from './movie-items.module.scss';
 
 export const MockMoves = () => {
   return (

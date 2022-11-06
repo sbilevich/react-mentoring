@@ -1,5 +1,5 @@
-import { FC } from "react";
-import styles from "./movie-card.module.scss";
+import { FC } from 'react';
+import styles from './movie-card.module.scss';
 
 interface MovieCardProps {
   img: string;

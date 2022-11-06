@@ -1,5 +1,5 @@
-import { Search } from "../search/search";
-import styles from "./movie-search.module.scss";
+import { Search } from '../search/search';
+import styles from './movie-search.module.scss';
 
 export const MovieSearch = () => {
   return (

@@ -1,12 +1,12 @@
-import classNames from "classnames";
-import { useState } from "react";
-import styles from "./menu.module.scss";
+import classNames from 'classnames';
+import { useState } from 'react';
+import styles from './menu.module.scss';
 
-const menu = ["all", "documentary", "comedy", "horror", "crime"];
-const sortOptions = ["Release date", "Title"];
+const menu = ['all', 'documentary', 'comedy', 'horror', 'crime'];
+const sortOptions = ['Release date', 'Title'];
 
 export const Menu = () => {
-  const [selectedMenu, setSelectedMenu] = useState<string>("all");
+  const [selectedMenu, setSelectedMenu] = useState<string>('all');
 
   return (
     <div className={styles.menuWrapper}>
@@ -18,7 +18,7 @@ export const Menu = () => {
               key={item}
               className={classNames(
                 styles.menuItem,
-                `${active && styles.active}`
+                `${active && styles.active}`,
               )}
               onClick={() => setSelectedMenu(item)}
             >
