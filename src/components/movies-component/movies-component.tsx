@@ -5,7 +5,7 @@ import styles from './movies-component.module.scss'
 export const MoviesComponent = () => {
     return (
         <>
-        <div className={styles.devider}/>
+        <div className={styles.divider}/>
         <MoviesContainer />
         </>
     )

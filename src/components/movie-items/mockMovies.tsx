@@ -3,7 +3,7 @@ import movie1 from "../../assets/Movie1.jpg";
 
 import styles from "./movie-items.module.scss";
 
-export const MovieItems = () => {
+export const MockMoves = () => {
   return (
     <div className={styles.movies}>
       <MovieCard

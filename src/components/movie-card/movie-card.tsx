@@ -15,7 +15,7 @@ export const MovieCard: FC<MovieCardProps> = ({
 }) => {
   return (
     <div className={styles.card}>
-      <img src={img} alt="" className={styles.img} />
+      <img src={img} alt={`${title}-poster`} className={styles.img} />
       <div className={styles.descriptionWrappper}>
         <div className={styles.nameWrapper}>
           <div className={styles.title}>{title}</div>

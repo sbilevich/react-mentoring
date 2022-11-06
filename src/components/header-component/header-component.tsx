@@ -6,10 +6,9 @@ import styles from './header-component.module.scss'
 
 export const HeaderComponent = () => {
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <HeaderTop />
       <MovieSearch />
-      
-    </div>
+    </header>
   );
 };

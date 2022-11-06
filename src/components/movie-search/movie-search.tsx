@@ -1,10 +1,10 @@
 import { Search } from "../search/search";
-import styles from './movie-search.module.scss'
+import styles from "./movie-search.module.scss";
 
 export const MovieSearch = () => {
   return (
     <div className={styles.searchWrapper}>
-      <div className={styles.text}>Find your movie</div>
+      <h1 className={styles.text}>Find your movie</h1>
       <Search />
     </div>
   );

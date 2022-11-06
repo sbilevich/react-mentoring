@@ -1,6 +1,6 @@
 import { ErrorBoundary } from "components/error-boundary/error-boundary";
 import { Menu } from "components/menu/menu";
-import { MovieItems } from "components/movie-items/movie-items";
+import { MockMoves } from "components/movie-items/mockMovies";
 
 import styles from "./movies-container.module.scss";
 
@@ -13,7 +13,7 @@ export const MoviesContainer = () => {
         <span>movies found</span>
       </div>
       <ErrorBoundary>
-        <MovieItems />
+        <MockMoves />
       </ErrorBoundary>
     </div>
   );

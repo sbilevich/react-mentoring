@@ -1,20 +1,30 @@
+import classNames from "classnames";
 import { useState } from "react";
 import styles from "./menu.module.scss";
 
-export const Menu = () => {
-  const menu = ["all", "documentary", "comedy", "horror", "crime"];
-  const sortOptions = ["Release date", "Title"];
+const menu = ["all", "documentary", "comedy", "horror", "crime"];
+const sortOptions = ["Release date", "Title"];
 
-  const [selectedMenu, setSelectedMenu] = useState("all");
-  
+export const Menu = () => {
+  const [selectedMenu, setSelectedMenu] = useState<string>("all");
+
   return (
     <div className={styles.menuWrapper}>
       <nav className={styles.menuItems}>
         {menu.map((item) => {
-            const active = item === selectedMenu
-            return (
-                <div key={item} className={`${styles.menuItem} ${active ? styles.active : ''}`} onClick={(e) => setSelectedMenu(item)}>{item}</div>
-            );
+          const active = item === selectedMenu;
+          return (
+            <div
+              key={item}
+              className={classNames(
+                styles.menuItem,
+                `${active && styles.active}`
+              )}
+              onClick={() => setSelectedMenu(item)}
+            >
+              {item}
+            </div>
+          );
         })}
       </nav>
       <div className={styles.sorting}>
