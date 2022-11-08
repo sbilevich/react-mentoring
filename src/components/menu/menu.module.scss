@@ -1,0 +1,59 @@
+@import "../../palette.scss";
+
+.menuWrapper {
+  height: 62px;
+  align-items: center;
+  border-bottom: 1px solid $gray;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.menuItems {
+  display: flex;
+}
+.menuItem {
+  height: 61px;
+  align-items: center;
+  display: flex;
+  margin-right: 30px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: $white;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  &:hover{
+    border-bottom: 1px solid $red;
+  }
+}
+.active {
+  border-bottom: 1px solid $red;
+}
+
+.sorting {
+  display: flex;
+}
+
+.sortBy {
+  margin-right: 35px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.888889px;
+  text-transform: uppercase;
+  color: $white;
+  opacity: 0.6;
+}
+
+.sortSelect {
+  background: #232323;
+  border: none;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.888889px;
+  text-transform: uppercase;
+  color: #ffffff;
+}

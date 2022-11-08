@@ -1,0 +1,9 @@
+@import "../../palette.scss";
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  background: $gray;
+}
