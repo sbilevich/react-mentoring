@@ -7,6 +7,7 @@ export const Search = () => {
   const handleClick = () => {
     console.log('search');
   };
+
   return (
     <div className={styles.searchWrapper}>
       <input type="text" className={styles.input} placeholder={placeholder} />
