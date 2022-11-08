@@ -2,19 +2,19 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import styles from './menu.module.scss';
 
-enum MenuOptions {
+export enum Genres {
   ALL = 'all',
-  DOCUMENTARY = 'documentary',
-  COMEDY = 'comedy',
-  HORROR = 'horror',
-  CRIME = 'crime',
+  DOCUMENTARY = 'Documentary',
+  COMEDY = 'Comedy',
+  HORROR = 'Horror',
+  CRIME = 'Crime',
 }
 const menu = [
-  MenuOptions.ALL,
-  MenuOptions.DOCUMENTARY,
-  MenuOptions.COMEDY,
-  MenuOptions.HORROR,
-  MenuOptions.CRIME,
+  Genres.ALL,
+  Genres.DOCUMENTARY,
+  Genres.COMEDY,
+  Genres.HORROR,
+  Genres.CRIME,
 ];
 
 const sortOptions = ['Release date', 'Title'];
@@ -43,7 +43,7 @@ export const Menu = () => {
       </nav>
       <div className={styles.sorting}>
         <div className={styles.sortBy}>Sort by</div>
-        <select className={styles.sortSelect}>
+        <select className={styles.sortSelect} required>
           {sortOptions.map((option) => (
             <option key={option} value={option} className={styles.option}>
               {option}

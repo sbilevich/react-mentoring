@@ -1,4 +1,4 @@
-@import "../../palette.scss";
+@import '../../palette.scss';
 
 .button {
   border: none;
@@ -12,4 +12,9 @@
   line-height: 24px;
   text-transform: uppercase;
   color: $white;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($color: $red, $amount: 5);
+  }
 }

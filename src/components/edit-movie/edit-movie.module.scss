@@ -1,0 +1,83 @@
+@import '../../palette.scss';
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  width: 859px;
+}
+
+.title {
+  display: flex;
+  justify-self: flex-start;
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 49px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.label {
+  margin-bottom: 13px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.888889px;
+  text-transform: uppercase;
+  color: $red;
+  opacity: 0.8;
+}
+
+.firstCol {
+  width: 490px;
+  height: 57px;
+}
+.secondCol {
+  width: 265px;
+  height: 57px;
+}
+.input {
+  margin-bottom: 30px;
+  padding: 0 18px;
+  border: none;
+  background: rgba(50, 50, 50, 0.8);
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 0.3);
+}
+select {
+  box-sizing: content-box;
+}
+
+.textarea {
+  width: 859px;
+  height: 197px;
+  border: none;
+  background: rgba(50, 50, 50, 0.8);
+  border-radius: 4px;
+  padding: 0;
+}
+
+.reset {
+  border: 1.5px solid $red;
+  background-color: transparent;
+  color: $red;
+  margin-right: 13px;
+  &:hover {
+    background-color: rgb(255 255 255 / 5%);
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
+}
