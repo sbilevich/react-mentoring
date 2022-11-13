@@ -1,5 +1,5 @@
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import styles from './modal.module.scss';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const Modal = ({ children, onClose }: Props) => {
+export const Modal: FC<Props> = ({ children, onClose }: Props) => {
   return (
     <div className={styles.modal}>
       <form className={styles.form}>

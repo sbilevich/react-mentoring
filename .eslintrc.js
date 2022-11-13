@@ -25,5 +25,6 @@ module.exports = {
       'error',
       { blankLine: 'always', prev: '*', next: 'return' },
     ],
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
   },
 };

@@ -46,10 +46,10 @@ export const MovieCard: FC<MovieCardProps> = ({
       <img src={img} alt={`${title}-poster`} className={styles.img} />
       <div className={styles.descriptionWrappper}>
         <div className={styles.nameWrapper}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.year}>{year}</div>
+          <span className={styles.title}>{title}</span>
+          <span className={styles.year}>{year}</span>
         </div>
-        <div className={styles.description}>{description}</div>
+        <p className={styles.description}>{description}</p>
       </div>
       <div
         className={styles.contextMenu}
@@ -64,15 +64,15 @@ export const MovieCard: FC<MovieCardProps> = ({
       </div>
       {showMenu && (
         <div className={styles.menu}>
-          <div className={styles.closeMenu} onClick={closeMenu}>
+          <button className={styles.closeMenu} onClick={closeMenu}>
             x
-          </div>
-          <div className={styles.menuItem} onClick={handleEdit}>
+          </button>
+          <button className={styles.menuItem} onClick={handleEdit}>
             Edit
-          </div>
-          <div className={styles.menuItem} onClick={handleDelete}>
+          </button>
+          <button className={styles.menuItem} onClick={handleDelete}>
             Delete
-          </div>
+          </button>
         </div>
       )}
       {showEditModal && (

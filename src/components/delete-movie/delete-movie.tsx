@@ -10,7 +10,6 @@ interface Props {
 export const DeleteMovie = ({ onDelete, onCancel }: Props) => {
   const handleDelete = () => {
     onDelete();
-    console.log('deleted');
   };
   const handleReset = () => {
     onCancel();
@@ -19,10 +18,10 @@ export const DeleteMovie = ({ onDelete, onCancel }: Props) => {
   return (
     <Modal onClose={handleReset}>
       <div className={styles.content}>
-        <div className={styles.title}>Delete Movie</div>
-        <div className={styles.text}>
+        <h2 className={styles.title}>Delete Movie</h2>
+        <p className={styles.text}>
           Are you sure you want to delete this movie?
-        </div>
+        </p>
         <div className={styles.buttons}>
           <AppButton text="Confirm" onButtonClick={handleDelete} />
         </div>

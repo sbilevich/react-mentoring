@@ -66,7 +66,6 @@ export const EditMovie = ({ title, onSubmit }: Props) => {
       <div className={styles.content}>
         <div className={styles.textWrapper}>
           <label className={styles.label}>Genre</label>
-
           <select
             required
             className={classNames(styles.firstCol, styles.input)}
