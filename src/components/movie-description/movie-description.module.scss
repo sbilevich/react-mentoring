@@ -1,0 +1,84 @@
+@import '../../palette.scss';
+.container {
+  background: rgb(0 0 0 / 50%);
+}
+.headerWpapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 60px;
+}
+
+.search {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+.movieWrapper {
+  display: flex;
+  padding: 10px 60px 30px 60px;
+}
+
+img {
+  width: 280px;
+  height: 400px;
+}
+
+.descriptionWrapper {
+  padding-left: 52px;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 49px;
+  letter-spacing: 1px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid $white;
+  border-radius: 50%;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 24px;
+  margin-left: 25px;
+}
+
+.shortDesc {
+  margin-top: 9px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  opacity: 0.5;
+}
+
+.yearWrapper {
+  display: flex;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 29px;
+  color: $red;
+  margin-top: 30px;
+}
+
+.year {
+  margin-right: 50px;
+}
+
+.description {
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
+  opacity: 0.5;
+}

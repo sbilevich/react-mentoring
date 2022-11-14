@@ -7,14 +7,16 @@ interface MovieCardProps {
   img: string;
   title: string;
   year: number;
-  description: string;
+  shortDescription: string;
+  onClick: () => void;
 }
 
 export const MovieCard: FC<MovieCardProps> = ({
   img,
   title,
   year,
-  description,
+  shortDescription,
+  onClick,
 }) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
@@ -42,14 +44,14 @@ export const MovieCard: FC<MovieCardProps> = ({
   };
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={onClick}>
       <img src={img} alt={`${title}-poster`} className={styles.img} />
       <div className={styles.descriptionWrappper}>
         <div className={styles.nameWrapper}>
           <span className={styles.title}>{title}</span>
           <span className={styles.year}>{year}</span>
         </div>
-        <p className={styles.description}>{description}</p>
+        <p className={styles.description}>{shortDescription}</p>
       </div>
       <div
         className={styles.contextMenu}
