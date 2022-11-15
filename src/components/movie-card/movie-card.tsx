@@ -76,7 +76,7 @@ export const MovieCard: FC<MovieCardProps> = ({
         </div>
       )}
       {showEditModal && (
-        <EditMovie title="Edit Movie" onSubmit={handleCloseEdit} />
+        <EditMovie title="Edit Movie" onClose={handleCloseEdit} />
       )}
       {showDeleteModal && (
         <DeleteMovie

@@ -3,18 +3,18 @@ import { useState } from 'react';
 import styles from './menu.module.scss';
 
 export enum Genres {
-  ALL = 'all',
-  DOCUMENTARY = 'Documentary',
-  COMEDY = 'Comedy',
-  HORROR = 'Horror',
-  CRIME = 'Crime',
+  All = 'All',
+  Documentary = 'Documentary',
+  Comedy = 'Comedy',
+  Horror = 'Horror',
+  Crime = 'Crime',
 }
 const menu = [
-  Genres.ALL,
-  Genres.DOCUMENTARY,
-  Genres.COMEDY,
-  Genres.HORROR,
-  Genres.CRIME,
+  Genres.All,
+  Genres.Documentary,
+  Genres.Comedy,
+  Genres.Horror,
+  Genres.Crime,
 ];
 
 const sortOptions = ['Release date', 'Title'];
