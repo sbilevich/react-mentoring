@@ -7,15 +7,13 @@ interface Props {
   onClose: () => void;
 }
 
-export const Modal: FC<Props> = ({ children, onClose }: Props) => {
-  return (
-    <div className={styles.modal}>
-      <form className={styles.form}>
-        <button className={styles.close} onClick={onClose}>
-          <CloseIcon />
-        </button>
-        <div className={styles.wrapper}>{children}</div>
-      </form>
-    </div>
-  );
-};
+export const Modal: FC<Props> = ({ children, onClose }: Props) => (
+  <div className={styles.modal}>
+    <form className={styles.form}>
+      <button className={styles.close} onClick={onClose}>
+        <CloseIcon />
+      </button>
+      <div className={styles.wrapper}>{children}</div>
+    </form>
+  </div>
+);

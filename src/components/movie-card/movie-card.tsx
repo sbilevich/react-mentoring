@@ -24,20 +24,21 @@ export const MovieCard: FC<MovieCardProps> = ({
     setShowMenu(false);
   };
 
-  const handleEdit = () => {
+  const openEdit = () => {
     setShowEditModal(true);
     closeMenu();
   };
 
-  const handleDelete = () => {
+  const openDelete = () => {
     setShowDeleteModal(true);
     closeMenu();
   };
 
-  const handleCloseEdit = () => {
+  const closeEdit = () => {
     setShowEditModal(false);
   };
-  const handleCloseDelete = () => {
+
+  const closeDelete = () => {
     setShowEditModal(false);
   };
 
@@ -67,22 +68,17 @@ export const MovieCard: FC<MovieCardProps> = ({
           <button className={styles.closeMenu} onClick={closeMenu}>
             x
           </button>
-          <button className={styles.menuItem} onClick={handleEdit}>
+          <button className={styles.menuItem} onClick={openEdit}>
             Edit
           </button>
-          <button className={styles.menuItem} onClick={handleDelete}>
+          <button className={styles.menuItem} onClick={openDelete}>
             Delete
           </button>
         </div>
       )}
-      {showEditModal && (
-        <EditMovie title="Edit Movie" onClose={handleCloseEdit} />
-      )}
+      {showEditModal && <EditMovie title="Edit Movie" onClose={closeEdit} />}
       {showDeleteModal && (
-        <DeleteMovie
-          onDelete={handleCloseDelete}
-          onCancel={handleCloseDelete}
-        />
+        <DeleteMovie onDelete={closeDelete} onCancel={closeDelete} />
       )}
     </div>
   );
