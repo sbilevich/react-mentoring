@@ -4,22 +4,27 @@ import React, {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import movie1 from '../assets/Movie1.jpg';
 
-const defaultMovies = Array(6).fill({
-  img: movie1,
-  title: 'Pulp Fiction',
-  year: 2004,
-  rating: 4.3,
-  duration: '154 min',
-  shortDescription: 'Action & Adventure',
-  description:
-    'Jules Winnfield (Samuel L. Jackson) and Vincent Vega (John Travolta) are two hit men who are out to retrieve a suitcase stolen from their employer, mob boss Marsellus Wallace (Ving Rhames). Wallace has also asked Vincent to take his wife Mia (Uma Thurman) out a few days later when Wallace himself will be out of town. Butch Coolidge (Bruce Willis) is an aging boxer who is paid by Wallace to lose his fight. The lives of these seemingly unrelated people are woven together comprising of a series of funny, bizarre and uncalled-for incidents.—Soumitra',
-});
-export type Movie = {
+const mockMovies = Array(6)
+  .fill({
+    img: movie1,
+    title: 'Pulp Fiction',
+    year: 2004,
+    rating: 4.3,
+    duration: '154 min',
+    shortDescription: 'Action & Adventure',
+    description:
+      'Jules Winnfield (Samuel L. Jackson) and Vincent Vega (John Travolta) are two hit men who are out to retrieve a suitcase stolen from their employer, mob boss Marsellus Wallace (Ving Rhames). Wallace has also asked Vincent to take his wife Mia (Uma Thurman) out a few days later when Wallace himself will be out of town. Butch Coolidge (Bruce Willis) is an aging boxer who is paid by Wallace to lose his fight. The lives of these seemingly unrelated people are woven together comprising of a series of funny, bizarre and uncalled-for incidents.—Soumitra',
+  })
+  .map((movie) => ({ ...movie, id: Math.floor(Math.random() * 6) }));
+
+export interface Movie {
+  id: number;
   img: string;
   title: string;
   year: number;
@@ -27,9 +32,9 @@ export type Movie = {
   duration: string;
   shortDescription: string;
   description: string;
-};
+}
 interface ContextValue {
-  movies: Movie[];
+  movies?: Movie[];
   selectedMovie?: Movie;
   setSelectedMovie: Dispatch<SetStateAction<Movie | undefined>>;
 }
@@ -41,10 +46,14 @@ interface ProviderProps {
 }
 
 export const MovieContextProvider: FC<ProviderProps> = ({ children }) => {
-  const [movies, setMovies] = useState<Movie[]>(defaultMovies);
+  const [movies, setMovies] = useState<Movie[] | undefined>(undefined);
   const [selectedMovie, setSelectedMovie] = useState<Movie | undefined>(
     undefined,
   );
+
+  useEffect(() => {
+    setMovies(mockMovies);
+  }, []);
 
   const value = useMemo<ContextValue>(
     () => ({

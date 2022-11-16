@@ -6,12 +6,12 @@ import { useMovieContext } from 'contexts/movie-context';
 import styles from './header-component.module.scss';
 
 export const HeaderComponent = () => {
-  const { selectedMovie } = useMovieContext();
+  const { selectedMovie, setSelectedMovie } = useMovieContext();
 
   return (
     <header className={styles.header}>
       {selectedMovie ? (
-        <MovieDescription />
+        <MovieDescription movie={selectedMovie} onClick={setSelectedMovie} />
       ) : (
         <>
           <Header />

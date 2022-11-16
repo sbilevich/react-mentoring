@@ -4,21 +4,19 @@ import { Genres } from 'components/menu/menu';
 import { Modal } from 'components/modal/modal';
 import styles from './edit-movie.module.scss';
 
-const genres = [Genres.COMEDY, Genres.CRIME, Genres.DOCUMENTARY, Genres.HORROR];
+const genres = [Genres.Comedy, Genres.Crime, Genres.Documentary, Genres.Horror];
 
 interface Props {
   title: string;
-  onSubmit: () => void;
+  onClose: () => void;
 }
 
-export const EditMovie = ({ title, onSubmit }: Props) => {
+export const EditMovie = ({ title, onClose }: Props) => {
   const handleSubmit = () => {
-    onSubmit();
-    console.log('submited');
+    onClose();
   };
   const handleReset = () => {
-    onSubmit();
-    console.log('cancelled');
+    onClose();
   };
 
   return (

@@ -16,7 +16,7 @@ export const Header = () => {
     <div className={styles.headerWpapper}>
       <Logo />
       <AppButton text="+ Add Movie" onButtonClick={handleAddClick} />
-      {showAddModal && <EditMovie title="Add movie" onSubmit={handleSubmit} />}
+      {showAddModal && <EditMovie title="Add movie" onClose={handleSubmit} />}
     </div>
   );
 };

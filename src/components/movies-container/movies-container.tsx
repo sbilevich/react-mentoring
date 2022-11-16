@@ -1,4 +1,3 @@
-import { EditMovie } from 'components/edit-movie/edit-movie';
 import { ErrorBoundary } from 'components/error-boundary/error-boundary';
 import { Menu } from 'components/menu/menu';
 import { MockMoves } from 'components/movie-items/mockMovies';

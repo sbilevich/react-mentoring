@@ -1,16 +1,19 @@
 import { MovieCard } from 'components/movie-card/movie-card';
 import { useMovieContext } from 'contexts/movie-context';
+import { FC } from 'react';
 
 import styles from './movie-items.module.scss';
 
-export const MockMoves = () => {
+export const MockMoves: FC = () => {
   const { movies, setSelectedMovie } = useMovieContext();
+
+  if (!movies) return null;
 
   return (
     <div className={styles.movies}>
       {movies.map((movie) => (
-        // eslint-disable-next-line react/jsx-key
         <MovieCard
+          key={movie.id}
           img={movie.img}
           title={movie.title}
           year={movie.year}
