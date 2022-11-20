@@ -1,8 +1,8 @@
 import { Logo } from 'components/logo/logo';
-import { Movie, useMovieContext } from 'contexts/movie-context';
 import { FC } from 'react';
 import { ReactComponent as Search } from 'assets/search.svg';
 import styles from './movie-description.module.scss';
+import { Movie } from 'types/movie';
 
 interface Props {
   movie: Movie;
