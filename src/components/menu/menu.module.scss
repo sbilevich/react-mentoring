@@ -1,4 +1,4 @@
-@import "../../palette.scss";
+@import '../../palette.scss';
 
 .menuWrapper {
   height: 62px;
@@ -12,6 +12,7 @@
 .menuItems {
   display: flex;
 }
+
 .menuItem {
   height: 61px;
   align-items: center;
@@ -24,10 +25,11 @@
   color: $white;
   cursor: pointer;
   border-bottom: 1px solid transparent;
-  &:hover{
+  &:hover {
     border-bottom: 1px solid $red;
   }
 }
+
 .active {
   border-bottom: 1px solid $red;
 }

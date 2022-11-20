@@ -1,4 +1,6 @@
-import { FC } from 'react';
+import { DeleteMovie } from 'components/delete-movie/delete-movie';
+import { EditMovie } from 'components/edit-movie/edit-movie';
+import { FC, useState } from 'react';
 import styles from './movie-card.module.scss';
 
 interface MovieCardProps {
@@ -13,15 +15,71 @@ export const MovieCard: FC<MovieCardProps> = ({
   title,
   year,
   description,
-}) => (
-  <div className={styles.card}>
-    <img src={img} alt={`${title}-poster`} className={styles.img} />
-    <div className={styles.descriptionWrappper}>
-      <div className={styles.nameWrapper}>
-        <div className={styles.title}>{title}</div>
-        <div className={styles.year}>{year}</div>
+}) => {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
+  const closeMenu = () => {
+    setShowMenu(false);
+  };
+
+  const openEdit = () => {
+    setShowEditModal(true);
+    closeMenu();
+  };
+
+  const openDelete = () => {
+    setShowDeleteModal(true);
+    closeMenu();
+  };
+
+  const closeEdit = () => {
+    setShowEditModal(false);
+  };
+
+  const closeDelete = () => {
+    setShowEditModal(false);
+  };
+
+  return (
+    <div className={styles.card}>
+      <img src={img} alt={`${title}-poster`} className={styles.img} />
+      <div className={styles.descriptionWrappper}>
+        <div className={styles.nameWrapper}>
+          <span className={styles.title}>{title}</span>
+          <span className={styles.year}>{year}</span>
+        </div>
+        <p className={styles.description}>{description}</p>
       </div>
-      <div className={styles.description}>{description}</div>
+      <div
+        className={styles.contextMenu}
+        onClick={() => setShowMenu(true)}
+        role="button"
+      >
+        <div className={styles.dotsContainer}>
+          <div className={styles.dot} />
+          <div className={styles.dot} />
+          <div className={styles.dot} />
+        </div>
+      </div>
+      {showMenu && (
+        <div className={styles.menu}>
+          <button className={styles.closeMenu} onClick={closeMenu}>
+            x
+          </button>
+          <button className={styles.menuItem} onClick={openEdit}>
+            Edit
+          </button>
+          <button className={styles.menuItem} onClick={openDelete}>
+            Delete
+          </button>
+        </div>
+      )}
+      {showEditModal && <EditMovie title="Edit Movie" onClose={closeEdit} />}
+      {showDeleteModal && (
+        <DeleteMovie onDelete={closeDelete} onCancel={closeDelete} />
+      )}
     </div>
-  </div>
-);
+  );
+};
