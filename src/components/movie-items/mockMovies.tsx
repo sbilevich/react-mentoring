@@ -7,7 +7,9 @@ import styles from './movie-items.module.scss';
 export const MockMoves: FC = () => {
   const { movies, setSelectedMovie } = useMovieContext();
 
-  if (!movies) return null;
+  if (!movies) {
+    return null;
+  }
 
   return (
     <div className={styles.movies}>
