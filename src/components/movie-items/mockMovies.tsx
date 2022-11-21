@@ -1,47 +1,28 @@
 import { MovieCard } from 'components/movie-card/movie-card';
-import movie1 from '../../assets/Movie1.jpg';
+import { useMovieContext } from 'contexts/movie-context';
+import { FC } from 'react';
 
 import styles from './movie-items.module.scss';
 
-export const MockMoves = () => {
+export const MockMoves: FC = () => {
+  const { movies, setSelectedMovie } = useMovieContext();
+
+  if (!movies) {
+    return null;
+  }
+
   return (
     <div className={styles.movies}>
-      <MovieCard
-        img={movie1}
-        title="Pulp Fiction"
-        year={2004}
-        description="Action & Adventure"
-      />
-      <MovieCard
-        img={movie1}
-        title="Pulp Fiction"
-        year={2004}
-        description="Action & Adventure"
-      />
-      <MovieCard
-        img={movie1}
-        title="Pulp Fiction"
-        year={2004}
-        description="Action & Adventure"
-      />
-      <MovieCard
-        img={movie1}
-        title="Pulp Fiction"
-        year={2004}
-        description="Action & Adventure"
-      />
-      <MovieCard
-        img={movie1}
-        title="Pulp Fiction"
-        year={2004}
-        description="Action & Adventure"
-      />
-      <MovieCard
-        img={movie1}
-        title="Pulp Fiction"
-        year={2004}
-        description="Action & Adventure"
-      />
+      {movies.map((movie) => (
+        <MovieCard
+          key={movie.id}
+          img={movie.img}
+          title={movie.title}
+          year={movie.year}
+          shortDescription={movie.shortDescription}
+          onClick={() => setSelectedMovie(movie)}
+        />
+      ))}
     </div>
   );
 };

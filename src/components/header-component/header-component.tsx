@@ -1,11 +1,23 @@
 import { Header } from 'components/header/header';
+import { MovieDescription } from 'components/movie-description/movie-description';
 import { MovieSearch } from 'components/movie-search/movie-search';
+import { useMovieContext } from 'contexts/movie-context';
 
 import styles from './header-component.module.scss';
 
-export const HeaderComponent = () => (
-  <header className={styles.header}>
-    <Header />
-    <MovieSearch />
-  </header>
-);
+export const HeaderComponent = () => {
+  const { selectedMovie, setSelectedMovie } = useMovieContext();
+
+  return (
+    <header className={styles.header}>
+      {selectedMovie ? (
+        <MovieDescription movie={selectedMovie} onClick={setSelectedMovie} />
+      ) : (
+        <>
+          <Header />
+          <MovieSearch />
+        </>
+      )}
+    </header>
+  );
+};
