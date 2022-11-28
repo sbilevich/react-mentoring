@@ -93,25 +93,6 @@ const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    set(state, action: PayloadAction<Movie[]>) {
-      state.movies = action.payload;
-    },
-    add(state, action: PayloadAction<Movie>) {
-      state.movies.push(action.payload);
-    },
-    remove(state, action: PayloadAction<number>) {
-      state.movies = state.movies.filter(
-        (movie) => movie.id !== action.payload,
-      );
-    },
-    update(state, action: PayloadAction<Movie>) {
-      const movieIdx = state.movies.findIndex(
-        (movie) => movie.id === action.payload.id,
-      );
-      if (movieIdx) {
-        state.movies[movieIdx] = action.payload;
-      }
-    },
     select(state, action: PayloadAction<Movie | undefined>) {
       state.selectedMovie = action.payload;
     },
@@ -136,5 +117,5 @@ const moviesSlice = createSlice({
   },
 });
 
-export const { set, add, remove, update, select } = moviesSlice.actions;
+export const { select } = moviesSlice.actions;
 export default moviesSlice;
