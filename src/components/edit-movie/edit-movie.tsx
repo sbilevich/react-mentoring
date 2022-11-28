@@ -2,21 +2,56 @@ import classNames from 'classnames';
 import { AppButton } from 'components/app-button/app-button';
 import { Genres } from 'components/menu/menu';
 import { Modal } from 'components/modal/modal';
+import { useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { addMovieAction, updateMovieAction } from 'redux/movies';
+import { Movie } from 'types/movie';
 import styles from './edit-movie.module.scss';
 
 const genres = [Genres.Comedy, Genres.Crime, Genres.Documentary, Genres.Horror];
 
+type MovieFormValues = Partial<Movie>;
+
 interface Props {
   title: string;
+  movie?: Movie;
   onClose: () => void;
 }
 
-export const EditMovie = ({ title, onClose }: Props) => {
+export const EditMovie = ({ title, movie, onClose }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const [movieData, setMovieData] = useState<MovieFormValues | undefined>(
+    movie,
+  );
+
   const handleSubmit = () => {
+    if (!movieData) {
+      return;
+    }
+    if (!isValidMovie(movieData)) {
+      return;
+    }
+    if (title === 'Add movie') {
+      dispatch(addMovieAction(movieData));
+    }
+    if (movie?.id) {
+      dispatch(updateMovieAction({ ...movieData, id: movie.id }));
+    }
     onClose();
   };
   const handleReset = () => {
     onClose();
+  };
+
+  const setData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    field: string,
+  ) => {
+    setMovieData((prevState) => ({
+      ...prevState,
+      [field]: e.target.value,
+    }));
   };
 
   return (
@@ -26,6 +61,8 @@ export const EditMovie = ({ title, onClose }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Title</label>
           <input
+            value={movieData?.title}
+            onChange={(e) => setData(e, 'title')}
             type="text"
             required
             className={classNames(styles.firstCol, styles.input)}
@@ -34,6 +71,8 @@ export const EditMovie = ({ title, onClose }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Release Date</label>
           <input
+            value={movieData?.release_date}
+            onChange={(e) => setData(e, 'release_date')}
             type="date"
             required
             className={classNames(styles.secondCol, styles.input)}
@@ -45,6 +84,8 @@ export const EditMovie = ({ title, onClose }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Movie URL</label>
           <input
+            value={movieData?.poster_path}
+            onChange={(e) => setData(e, 'poster_path')}
             type="text"
             required
             className={classNames(styles.firstCol, styles.input)}
@@ -54,6 +95,8 @@ export const EditMovie = ({ title, onClose }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Rating</label>
           <input
+            value={movieData?.vote_average}
+            onChange={(e) => setData(e, 'vote_average')}
             type="number"
             required
             className={classNames(styles.secondCol, styles.input)}
@@ -65,6 +108,10 @@ export const EditMovie = ({ title, onClose }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Genre</label>
           <select
+            value={
+              movieData?.genres?.length ? movieData?.genres[0] : Genres.Comedy
+            }
+            onChange={(e) => setData(e, 'genres')}
             required
             className={classNames(styles.firstCol, styles.input)}
           >
@@ -78,7 +125,9 @@ export const EditMovie = ({ title, onClose }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Runtime</label>
           <input
-            type="text"
+            value={movieData?.runtime}
+            onChange={(e) => setData(e, 'runtime')}
+            type="number"
             required
             className={classNames(styles.secondCol, styles.input)}
             placeholder="minutes"
@@ -87,8 +136,14 @@ export const EditMovie = ({ title, onClose }: Props) => {
       </div>
       <div className={styles.content}>
         <div className={styles.textWrapper}>
-          <label className={styles.label}>Title</label>
-          <input type="text" required className={classNames(styles.textarea)} />
+          <label className={styles.label}>Description</label>
+          <input
+            value={movieData?.overview}
+            onChange={(e) => setData(e, 'overview')}
+            type="text"
+            required
+            className={classNames(styles.textarea)}
+          />
         </div>
       </div>
       <div className={styles.buttons}>
@@ -102,3 +157,15 @@ export const EditMovie = ({ title, onClose }: Props) => {
     </Modal>
   );
 };
+
+function isValidMovie(movie: Partial<Movie>): movie is Movie {
+  return !!(
+    movie.title &&
+    movie.vote_average &&
+    movie.release_date &&
+    movie.poster_path &&
+    movie.overview &&
+    movie.runtime &&
+    movie.genres
+  );
+}
