@@ -86,7 +86,12 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onClick }) => {
         </div>
       )}
       {showEditModal && (
-        <EditMovie title="Edit Movie" onClose={closeEdit} movie={movie} />
+        <EditMovie
+          title="Edit Movie"
+          onClose={closeEdit}
+          movie={movie}
+          action="edit"
+        />
       )}
       {showDeleteModal && (
         <DeleteMovie onDelete={handleDelete} onCancel={closeDelete} />

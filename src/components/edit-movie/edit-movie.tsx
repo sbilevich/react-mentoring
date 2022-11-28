@@ -16,9 +16,10 @@ interface Props {
   title: string;
   movie?: Movie;
   onClose: () => void;
+  action: 'add' | 'edit';
 }
 
-export const EditMovie = ({ title, movie, onClose }: Props) => {
+export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   const dispatch = useAppDispatch();
 
   const [movieData, setMovieData] = useState<MovieFormValues | undefined>(
@@ -32,7 +33,7 @@ export const EditMovie = ({ title, movie, onClose }: Props) => {
     if (!isValidMovie(movieData)) {
       return;
     }
-    if (title === 'Add movie') {
+    if (action === 'add') {
       dispatch(addMovieAction(movieData));
     }
     if (movie?.id) {
