@@ -12,11 +12,15 @@ const genres = [Genres.Comedy, Genres.Crime, Genres.Documentary, Genres.Horror];
 
 type MovieFormValues = Partial<Movie>;
 
+export enum Actions {
+  Add = 'add',
+  Edit = 'edit',
+}
 interface Props {
   title: string;
   movie?: Movie;
   onClose: () => void;
-  action: 'add' | 'edit';
+  action: Actions;
 }
 
 export const EditMovie = ({ title, movie, onClose, action }: Props) => {
@@ -27,13 +31,11 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   );
 
   const handleSubmit = () => {
-    if (!movieData) {
+    if (!movieData || !isValidMovie(movieData)) {
       return;
     }
-    if (!isValidMovie(movieData)) {
-      return;
-    }
-    if (action === 'add') {
+
+    if (action === Actions.Add) {
       dispatch(addMovieAction(movieData));
     }
     if (movie?.id) {
@@ -159,7 +161,7 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   );
 };
 
-function isValidMovie(movie: Partial<Movie>): movie is Movie {
+const isValidMovie = (movie: Partial<Movie>): movie is Movie => {
   return !!(
     movie.title &&
     movie.vote_average &&
@@ -169,4 +171,4 @@ function isValidMovie(movie: Partial<Movie>): movie is Movie {
     movie.runtime &&
     movie.genres
   );
-}
+};

@@ -1,6 +1,6 @@
 import { DeleteMovie } from 'components/delete-movie/delete-movie';
-import { EditMovie } from 'components/edit-movie/edit-movie';
-import { FC, useState } from 'react';
+import { Actions, EditMovie } from 'components/edit-movie/edit-movie';
+import { FC, useMemo, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { deleteMovieAction } from 'redux/movies';
 import { Movie } from 'types/movie';
@@ -45,6 +45,11 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onClick }) => {
     dispatch(deleteMovieAction(movie.id));
   };
 
+  const year = useMemo(
+    () => new Date(movie.release_date).getFullYear(),
+    [movie.release_date],
+  );
+
   return (
     <div className={styles.card} onClick={onClick}>
       <img
@@ -55,9 +60,7 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onClick }) => {
       <div className={styles.descriptionWrappper}>
         <div className={styles.nameWrapper}>
           <span className={styles.title}>{movie.title}</span>
-          <span className={styles.year}>
-            {new Date(movie.release_date).getFullYear()}
-          </span>
+          <span className={styles.year}>{year}</span>
         </div>
         <p className={styles.description}>{movie.tagline}</p>
       </div>
@@ -90,7 +93,7 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onClick }) => {
           title="Edit Movie"
           onClose={closeEdit}
           movie={movie}
-          action="edit"
+          action={Actions.Edit}
         />
       )}
       {showDeleteModal && (

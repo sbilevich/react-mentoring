@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Movie } from 'types/movie';
-import { RootState } from './store';
 
+const URL = process.env.REACT_APP_BACK_URL;
 interface MoviesState {
   movies: Movie[];
   selectedMovie?: Movie;
   moviesCount: number;
 }
-interface fetchProps {
+interface MoviesSearchParams {
   searchText?: string;
   searchBy?: string;
   sortBy?: string;
@@ -22,7 +22,7 @@ const initialState: MoviesState = {
 };
 export const fetchMoviesAction = createAsyncThunk(
   'moviesFetch',
-  (params: fetchProps) => {
+  (params: MoviesSearchParams) => {
     return fetchMovies(params);
   },
 );
@@ -33,7 +33,7 @@ const fetchMovies = async ({
   sortBy,
   sortOrder = 'asc',
   filter,
-}: fetchProps) => {
+}: MoviesSearchParams) => {
   const queryParams = [
     searchText ? `search=${searchText}` : '',
     searchBy ? `&searchBy=${searchBy}` : '',
@@ -43,7 +43,7 @@ const fetchMovies = async ({
   ]
     .filter(Boolean)
     .join('&');
-  const response = await fetch(`http://localhost:4000/movies?${queryParams}`);
+  const response = await fetch(`${URL}/movies?${queryParams}`);
 
   return await response.json();
 };
@@ -51,26 +51,46 @@ const fetchMovies = async ({
 export const addMovieAction = createAsyncThunk(
   'addMovie',
   async (movie: Movie) => {
-    await fetch('http://localhost:4000/movies', {
+    await fetch(`${URL}/movies`, {
       method: 'POST',
       body: JSON.stringify(movie),
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     });
-    const response = await fetch('http://localhost:4000/movies');
+    const response = await fetch(`${URL}/movies`);
 
     return await response.json();
   },
 );
+enum Method {
+  'Put' = 'PUT',
+  'Get' = 'GET',
+  'Post' = 'POST',
+  'Delete' = 'DELETE',
+}
+interface FetchDataParams {
+  url: string;
+  method?: Method;
+  bodyObj?: any;
+  headers?: HeadersInit;
+}
+const fetchJson = async ({ url, method, bodyObj }: FetchDataParams) => {
+  return await fetch(url, {
+    method,
+    body: JSON.stringify(bodyObj),
+    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+  });
+};
 
 export const updateMovieAction = createAsyncThunk(
   'updateMovie',
   async (movie: Movie) => {
-    await fetch('http://localhost:4000/movies', {
-      method: 'PUT',
-      body: JSON.stringify(movie),
-      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+    await fetchJson({
+      url: `${URL}/movies`,
+      method: Method.Put,
+      bodyObj: movie,
     });
-    const response = await fetch('http://localhost:4000/movies');
+
+    const response = await fetch(`${URL}/movies`);
 
     return await response.json();
   },
@@ -79,11 +99,8 @@ export const updateMovieAction = createAsyncThunk(
 export const deleteMovieAction = createAsyncThunk(
   'deleteMovie',
   async (id: number) => {
-    await fetch(`http://localhost:4000/movies/${id}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-    });
-    const response = await fetch('http://localhost:4000/movies');
+    await fetchJson({ url: `${URL}/movies/${id}`, method: Method.Delete });
+    const response = await fetch(`${URL}/movies`);
 
     return await response.json();
   },
@@ -118,4 +135,5 @@ const moviesSlice = createSlice({
 });
 
 export const { select } = moviesSlice.actions;
+
 export default moviesSlice;
