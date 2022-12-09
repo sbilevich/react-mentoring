@@ -9,11 +9,11 @@ interface Props {
 
 export const Modal: FC<Props> = ({ children, onClose }: Props) => (
   <div className={styles.modal}>
-    <form className={styles.form}>
+    <div className={styles.form}>
       <button className={styles.close} onClick={onClose}>
         <CloseIcon />
       </button>
       <div className={styles.wrapper}>{children}</div>
-    </form>
+    </div>
   </div>
 );

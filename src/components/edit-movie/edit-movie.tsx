@@ -2,15 +2,13 @@ import classNames from 'classnames';
 import { AppButton } from 'components/app-button/app-button';
 import { Genres } from 'components/menu/menu';
 import { Modal } from 'components/modal/modal';
-import { useState } from 'react';
+import { Field, Form } from 'react-final-form';
 import { useAppDispatch } from 'redux/hooks';
 import { addMovieAction, updateMovieAction } from 'redux/movies';
 import { Movie } from 'types/movie';
 import styles from './edit-movie.module.scss';
 
 const genres = [Genres.Comedy, Genres.Crime, Genres.Documentary, Genres.Horror];
-
-type MovieFormValues = Partial<Movie>;
 
 export enum Actions {
   Add = 'add',
@@ -34,15 +32,21 @@ interface Props {
   action: Actions;
 }
 
+interface Values {
+  title: string;
+  release_date: string;
+  poster_path: string;
+  vote_average: number;
+  genres: string[];
+  runtime: number;
+  overview: string;
+}
+
 export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   const dispatch = useAppDispatch();
 
-  const [movieData, setMovieData] = useState<MovieFormValues | undefined>(
-    movie,
-  );
-
-  const handleSubmit = () => {
-    if (!movieData || !isValidMovie(movieData)) {
+  const onSubmit = (values: Values) => {
+    if (!values || !isValidMovie(values)) {
       return;
     }
 
@@ -56,6 +60,7 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   const handleReset = () => {
     onClose();
   };
+  const required = (value: any) => (value ? undefined : 'Required');
 
   const setData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
