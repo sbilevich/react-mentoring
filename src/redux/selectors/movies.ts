@@ -1,3 +1,3 @@
 import { RootState } from 'redux/store';
 
-export const moviesSelector = (state: RootState) => state.movies.movies;
+export const selectMovies = (state: RootState) => state.movies.movies;

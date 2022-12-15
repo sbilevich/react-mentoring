@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Movie } from 'types/movie';
+import { fetchJson, Method } from './fetch';
 
 const URL = process.env.REACT_APP_BACK_URL;
 interface MoviesState {
@@ -43,7 +44,7 @@ const fetchMovies = async ({
   ]
     .filter(Boolean)
     .join('&');
-  const response = await fetch(`${URL}/movies?${queryParams}`);
+  const response = await fetchJson({ url: `${URL}/movies?${queryParams}` });
 
   return await response.json();
 };
@@ -56,30 +57,11 @@ export const addMovieAction = createAsyncThunk(
       body: JSON.stringify(movie),
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     });
-    const response = await fetch(`${URL}/movies`);
+    const response = await fetchJson({ url: `${URL}/movies` });
 
     return await response.json();
   },
 );
-enum Method {
-  'Put' = 'PUT',
-  'Get' = 'GET',
-  'Post' = 'POST',
-  'Delete' = 'DELETE',
-}
-interface FetchDataParams {
-  url: string;
-  method?: Method;
-  bodyObj?: any;
-  headers?: HeadersInit;
-}
-const fetchJson = async ({ url, method, bodyObj }: FetchDataParams) => {
-  return await fetch(url, {
-    method,
-    body: JSON.stringify(bodyObj),
-    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-  });
-};
 
 export const updateMovieAction = createAsyncThunk(
   'updateMovie',
@@ -87,10 +69,10 @@ export const updateMovieAction = createAsyncThunk(
     await fetchJson({
       url: `${URL}/movies`,
       method: Method.Put,
-      bodyObj: movie,
+      body: movie,
     });
 
-    const response = await fetch(`${URL}/movies`);
+    const response = await fetchJson({ url: `${URL}/movies` });
 
     return await response.json();
   },
@@ -100,7 +82,7 @@ export const deleteMovieAction = createAsyncThunk(
   'deleteMovie',
   async (id: number) => {
     await fetchJson({ url: `${URL}/movies/${id}`, method: Method.Delete });
-    const response = await fetch(`${URL}/movies`);
+    const response = await fetchJson({ url: `${URL}/movies` });
 
     return await response.json();
   },

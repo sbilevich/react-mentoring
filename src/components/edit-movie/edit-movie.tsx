@@ -16,6 +16,7 @@ export enum Actions {
   Add = 'add',
   Edit = 'edit',
 }
+
 interface Props {
   title: string;
   movie?: Movie;
@@ -161,8 +162,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   );
 };
 
-const isValidMovie = (movie: Partial<Movie>): movie is Movie => {
-  return !!(
+const isValidMovie = (movie: Partial<Movie>): movie is Movie =>
+  !!(
     movie.title &&
     movie.vote_average &&
     movie.release_date &&
@@ -171,4 +172,3 @@ const isValidMovie = (movie: Partial<Movie>): movie is Movie => {
     movie.runtime &&
     movie.genres
   );
-};
