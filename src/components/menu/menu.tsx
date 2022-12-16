@@ -28,7 +28,6 @@ const sortOptions = [
 
 export const Menu = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [selectedMenu, setSelectedMenu] = useState<string>(Genres.All);
   const [sortBy, setSortBy] = useState<string>('release_date');
 
