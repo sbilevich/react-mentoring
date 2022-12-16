@@ -100,19 +100,19 @@ const moviesSlice = createSlice({
     builder.addCase(fetchMoviesAction.fulfilled, (state, action) => {
       state.movies = action.payload.data;
       state.moviesCount = action.payload.totalAmount;
-    }),
-      builder.addCase(addMovieAction.fulfilled, (state, action) => {
-        state.movies = action.payload.data;
-        state.moviesCount = action.payload.totalAmount;
-      }),
-      builder.addCase(updateMovieAction.fulfilled, (state, action) => {
-        state.movies = action.payload.data;
-        state.moviesCount = action.payload.totalAmount;
-      }),
-      builder.addCase(deleteMovieAction.fulfilled, (state, action) => {
-        state.movies = action.payload.data;
-        state.moviesCount = action.payload.totalAmount;
-      });
+    });
+    builder.addCase(addMovieAction.fulfilled, (state, action) => {
+      state.movies = action.payload.data;
+      state.moviesCount = action.payload.totalAmount;
+    });
+    builder.addCase(updateMovieAction.fulfilled, (state, action) => {
+      state.movies = action.payload.data;
+      state.moviesCount = action.payload.totalAmount;
+    });
+    builder.addCase(deleteMovieAction.fulfilled, (state, action) => {
+      state.movies = action.payload.data;
+      state.moviesCount = action.payload.totalAmount;
+    });
   },
 });
 

@@ -5,6 +5,7 @@ import styles from './movie-description.module.scss';
 import { Movie } from 'types/movie';
 import { useAppDispatch } from 'redux/hooks';
 import { select } from 'redux/movies';
+import { useSearchParams } from 'react-router-dom';
 
 interface Props {
   movie: Movie;
@@ -18,14 +19,19 @@ export const MovieDescription: FC<Props> = ({ movie }) => {
     [movie.release_date],
   );
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSearch = () => {
+    dispatch(select(undefined));
+    searchParams.delete('movieId');
+    setSearchParams(searchParams);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.headerWpapper}>
         <Logo />
-        <Search
-          className={styles.search}
-          onClick={() => dispatch(select(undefined))}
-        />
+        <Search className={styles.search} onClick={handleSearch} />
       </div>
       <div className={styles.movieWrapper}>
         <img className={styles.img} src={movie.poster_path} alt={movie.title} />
