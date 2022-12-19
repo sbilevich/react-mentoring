@@ -17,6 +17,16 @@ export enum Actions {
   Edit = 'edit',
 }
 
+enum MovieFields {
+  Title = 'title',
+  ReleaseDate = 'release_date',
+  PosterPath = 'poster_path',
+  Genres = 'genres',
+  VoteAverage = 'vote_average',
+  Runtime = 'runtime',
+  Overview = 'overview',
+}
+
 interface Props {
   title: string;
   movie?: Movie;
@@ -65,8 +75,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Title</label>
           <input
-            value={movieData?.title}
-            onChange={(e) => setData(e, 'title')}
+            value={movieData?.[MovieFields.Title]}
+            onChange={(e) => setData(e, MovieFields.Title)}
             type="text"
             required
             className={classNames(styles.firstCol, styles.input)}
@@ -75,8 +85,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Release Date</label>
           <input
-            value={movieData?.release_date}
-            onChange={(e) => setData(e, 'release_date')}
+            value={movieData?.[MovieFields.ReleaseDate]}
+            onChange={(e) => setData(e, MovieFields.ReleaseDate)}
             type="date"
             required
             className={classNames(styles.secondCol, styles.input)}
@@ -88,8 +98,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Movie URL</label>
           <input
-            value={movieData?.poster_path}
-            onChange={(e) => setData(e, 'poster_path')}
+            value={movieData?.[MovieFields.PosterPath]}
+            onChange={(e) => setData(e, MovieFields.PosterPath)}
             type="text"
             required
             className={classNames(styles.firstCol, styles.input)}
@@ -99,8 +109,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Rating</label>
           <input
-            value={movieData?.vote_average}
-            onChange={(e) => setData(e, 'vote_average')}
+            value={movieData?.[MovieFields.PosterPath]}
+            onChange={(e) => setData(e, MovieFields.PosterPath)}
             type="number"
             required
             className={classNames(styles.secondCol, styles.input)}
@@ -113,9 +123,11 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
           <label className={styles.label}>Genre</label>
           <select
             value={
-              movieData?.genres?.length ? movieData?.genres[0] : Genres.Comedy
+              movieData?.[MovieFields.Genres]?.length
+                ? movieData?.[MovieFields.Genres][0]
+                : Genres.Comedy
             }
-            onChange={(e) => setData(e, 'genres')}
+            onChange={(e) => setData(e, MovieFields.Genres)}
             required
             className={classNames(styles.firstCol, styles.input)}
           >
@@ -129,8 +141,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Runtime</label>
           <input
-            value={movieData?.runtime}
-            onChange={(e) => setData(e, 'runtime')}
+            value={movieData?.[MovieFields.Runtime]}
+            onChange={(e) => setData(e, MovieFields.Runtime)}
             type="number"
             required
             className={classNames(styles.secondCol, styles.input)}
@@ -142,8 +154,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
         <div className={styles.textWrapper}>
           <label className={styles.label}>Description</label>
           <input
-            value={movieData?.overview}
-            onChange={(e) => setData(e, 'overview')}
+            value={movieData?.[MovieFields.Overview]}
+            onChange={(e) => setData(e, MovieFields.Overview)}
             type="text"
             required
             className={classNames(styles.textarea)}
