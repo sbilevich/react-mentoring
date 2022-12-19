@@ -2,7 +2,8 @@ import classNames from 'classnames';
 import { AppButton } from 'components/app-button/app-button';
 import { Genres } from 'components/menu/menu';
 import { Modal } from 'components/modal/modal';
-import { Field, Form } from 'react-final-form';
+import { useMemo } from 'react';
+import { Field, Form, FieldRenderProps } from 'react-final-form';
 import { useAppDispatch } from 'redux/hooks';
 import { addMovieAction, updateMovieAction } from 'redux/movies';
 import { Movie } from 'types/movie';
@@ -32,7 +33,7 @@ interface Props {
   action: Actions;
 }
 
-interface Values {
+interface MovieFields {
   title: string;
   release_date: string;
   poster_path: string;
@@ -45,7 +46,7 @@ interface Values {
 export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   const dispatch = useAppDispatch();
 
-  const onSubmit = (values: Values) => {
+  const onSubmit = (values: MovieFields) => {
     if (!values || !isValidMovie(values)) {
       return;
     }
@@ -64,23 +65,40 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   const handleReset = () => {
     onClose();
   };
-  const required = (value: any) => (value ? undefined : 'Required');
+  const getValidator = (value: string | number | string[] | undefined) =>
+    value ? undefined : 'Required';
 
-  const setData = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    setMovieData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  const initialValues = {
-    title: movie?.title,
-    release_date: movie?.release_date,
-    poster_path: movie?.poster_path,
-    vote_average: movie?.vote_average,
-    genres: movie?.genres,
-    runtime: movie?.runtime,
-    overview: movie?.overview,
+  const initialValues = useMemo(
+    () => ({
+      title: movie?.title,
+      release_date: movie?.release_date,
+      poster_path: movie?.poster_path,
+      vote_average: movie?.vote_average,
+      genres: movie?.genres,
+      runtime: movie?.runtime,
+      overview: movie?.overview,
+    }),
+    [movie],
+  );
+
+  const TextFieldAdapter = ({
+    input,
+    meta,
+    placeholder,
+    className,
+    type = 'text',
+  }: FieldRenderProps<string | number>) => {
+    return (
+      <>
+        <input
+          {...input}
+          className={classNames(className, styles.input)}
+          type={type}
+          placeholder={placeholder}
+        />
+        {meta.error && meta.touched && <span>{meta.error}</span>}
+      </>
+    );
   };
 
   return (
@@ -200,74 +218,46 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
               <div className={styles.content}>
                 <div className={styles.textWrapper}>
                   <label className={styles.label}>Title</label>
-                  <Field name="title" validate={required}>
-                    {({ input, meta }) => (
-                      <>
-                        <input
-                          {...input}
-                          className={classNames(styles.firstCol, styles.input)}
-                        />
-                        {meta.error && meta.touched && (
-                          <span>{meta.error}</span>
-                        )}
-                      </>
-                    )}
-                  </Field>
+                  <Field
+                    name="title"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.firstCol}
+                  />
                 </div>
                 <div className={styles.textWrapper}>
                   <label className={styles.label}>Release Date</label>
-                  <Field name="release_date" validate={required}>
-                    {({ input, meta }) => (
-                      <>
-                        <input
-                          {...input}
-                          type="date"
-                          className={classNames(styles.secondCol, styles.input)}
-                          placeholder="Select Date"
-                        />
-                        {meta.error && meta.touched && (
-                          <span>{meta.error}</span>
-                        )}
-                      </>
-                    )}
-                  </Field>
+                  <Field
+                    name="release_date"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.secondCol}
+                    placeholder="Select Date"
+                    type="date"
+                  />
                 </div>
               </div>
               <div className={styles.content}>
                 <div className={styles.textWrapper}>
                   <label className={styles.label}>Movie URL</label>
-                  <Field name="poster_path" validate={required}>
-                    {({ input, meta }) => (
-                      <>
-                        <input
-                          {...input}
-                          className={classNames(styles.firstCol, styles.input)}
-                          placeholder="http://"
-                        />
-                        {meta.error && meta.touched && (
-                          <span>{meta.error}</span>
-                        )}
-                      </>
-                    )}
-                  </Field>
+                  <Field
+                    name="poster_path"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.firstCol}
+                    placeholder="http://"
+                  />
                 </div>
                 <div className={styles.textWrapper}>
                   <label className={styles.label}>Rating</label>
-                  <Field name="vote_average" validate={required}>
-                    {({ input, meta }) => (
-                      <>
-                        <input
-                          {...input}
-                          type="number"
-                          className={classNames(styles.secondCol, styles.input)}
-                          placeholder="7.8"
-                        />
-                        {meta.error && meta.touched && (
-                          <span>{meta.error}</span>
-                        )}
-                      </>
-                    )}
-                  </Field>
+                  <Field
+                    name="vote_average"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.secondCol}
+                    placeholder="7.8"
+                    type="number"
+                  />
                 </div>
               </div>
               <div className={styles.content}>
@@ -290,28 +280,21 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
                 </div>
                 <div className={styles.textWrapper}>
                   <label className={styles.label}>Runtime</label>
-                  <Field name="runtime" validate={required}>
-                    {({ input, meta }) => (
-                      <>
-                        <input
-                          {...input}
-                          type="number"
-                          className={classNames(styles.secondCol, styles.input)}
-                          placeholder="minutes"
-                        />
-                        {meta.error && meta.touched && (
-                          <span>{meta.error}</span>
-                        )}
-                      </>
-                    )}
-                  </Field>
+                  <Field
+                    name="runtime"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.secondCol}
+                    placeholder="minutes"
+                    type="number"
+                  />
                 </div>
               </div>
               <div className={styles.content}>
                 <div className={styles.textWrapper}>
                   <label className={styles.label}>Description</label>
-                  <Field name="overview" validate={required}>
-                    {({ input, meta }) => (
+                  <Field name="overview" validate={getValidator}>
+                    {({ input, meta }: FieldRenderProps<string>) => (
                       <>
                         <textarea
                           {...input}
