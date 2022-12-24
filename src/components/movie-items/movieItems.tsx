@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 
 import styles from './movie-items.module.scss';
-import { selectMovies } from 'redux/selectors/movies';
+import { selectMovies } from 'redux/selectors/movie';
 
 export const MovieItems: FC = () => {
   const movies = useAppSelector(selectMovies);

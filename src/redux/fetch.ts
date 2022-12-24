@@ -1,8 +1,8 @@
 export enum Method {
-  'Put' = 'PUT',
-  'Get' = 'GET',
-  'Post' = 'POST',
-  'Delete' = 'DELETE',
+  Put = 'PUT',
+  Get = 'GET',
+  Post = 'POST',
+  Delete = 'DELETE',
 }
 
 export interface FetchDataParams {

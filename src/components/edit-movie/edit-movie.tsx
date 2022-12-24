@@ -48,9 +48,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
 
     if (action === Actions.Add) {
       dispatch(addMovieAction(movieData));
-    }
-    if (movie?.id) {
-      dispatch(updateMovieAction({ ...movieData, id: movie.id }));
+    } else {
+      dispatch(updateMovieAction({ ...movieData, id: movie?.id }));
     }
     onClose();
   };
@@ -60,11 +59,10 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
 
   const setData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-    field: string,
   ) => {
     setMovieData((prevState) => ({
       ...prevState,
-      [field]: e.target.value,
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -76,8 +74,9 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
           <label className={styles.label}>Title</label>
           <input
             value={movieData?.[MovieFields.Title]}
-            onChange={(e) => setData(e, MovieFields.Title)}
+            onChange={setData}
             type="text"
+            name={MovieFields.Title}
             required
             className={classNames(styles.firstCol, styles.input)}
           />
@@ -86,8 +85,9 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
           <label className={styles.label}>Release Date</label>
           <input
             value={movieData?.[MovieFields.ReleaseDate]}
-            onChange={(e) => setData(e, MovieFields.ReleaseDate)}
+            onChange={setData}
             type="date"
+            name={MovieFields.ReleaseDate}
             required
             className={classNames(styles.secondCol, styles.input)}
             placeholder="Select Date"
@@ -99,8 +99,9 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
           <label className={styles.label}>Movie URL</label>
           <input
             value={movieData?.[MovieFields.PosterPath]}
-            onChange={(e) => setData(e, MovieFields.PosterPath)}
+            onChange={setData}
             type="text"
+            name={MovieFields.PosterPath}
             required
             className={classNames(styles.firstCol, styles.input)}
             placeholder="http://"
@@ -110,8 +111,9 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
           <label className={styles.label}>Rating</label>
           <input
             value={movieData?.[MovieFields.PosterPath]}
-            onChange={(e) => setData(e, MovieFields.PosterPath)}
+            onChange={setData}
             type="number"
+            name={MovieFields.PosterPath}
             required
             className={classNames(styles.secondCol, styles.input)}
             placeholder="7.8"
@@ -127,7 +129,8 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
                 ? movieData?.[MovieFields.Genres][0]
                 : Genres.Comedy
             }
-            onChange={(e) => setData(e, MovieFields.Genres)}
+            onChange={setData}
+            name={MovieFields.Genres}
             required
             className={classNames(styles.firstCol, styles.input)}
           >
@@ -142,8 +145,9 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
           <label className={styles.label}>Runtime</label>
           <input
             value={movieData?.[MovieFields.Runtime]}
-            onChange={(e) => setData(e, MovieFields.Runtime)}
+            onChange={setData}
             type="number"
+            name={MovieFields.Runtime}
             required
             className={classNames(styles.secondCol, styles.input)}
             placeholder="minutes"
@@ -155,8 +159,9 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
           <label className={styles.label}>Description</label>
           <input
             value={movieData?.[MovieFields.Overview]}
-            onChange={(e) => setData(e, MovieFields.Overview)}
+            onChange={setData}
             type="text"
+            name={MovieFields.Overview}
             required
             className={classNames(styles.textarea)}
           />
