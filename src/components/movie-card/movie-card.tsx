@@ -1,26 +1,23 @@
 import { DeleteMovie } from 'components/delete-movie/delete-movie';
-import { EditMovie } from 'components/edit-movie/edit-movie';
-import { FC, useState } from 'react';
+import { Actions, EditMovie } from 'components/edit-movie/edit-movie';
+import { FC, useMemo, useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { deleteMovieAction } from 'redux/movies';
+import { Movie } from 'types/movie';
+
 import styles from './movie-card.module.scss';
 
 interface MovieCardProps {
-  img: string;
-  title: string;
-  year: number;
-  shortDescription: string;
+  movie: Movie;
   onClick: () => void;
 }
 
-export const MovieCard: FC<MovieCardProps> = ({
-  img,
-  title,
-  year,
-  shortDescription,
-  onClick,
-}) => {
+export const MovieCard: FC<MovieCardProps> = ({ movie, onClick }) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
 
   const closeMenu = () => {
     setShowMenu(false);
@@ -44,15 +41,28 @@ export const MovieCard: FC<MovieCardProps> = ({
     setShowEditModal(false);
   };
 
+  const handleDelete = () => {
+    dispatch(deleteMovieAction(movie.id));
+  };
+
+  const year = useMemo(
+    () => new Date(movie.release_date).getFullYear(),
+    [movie.release_date],
+  );
+
   return (
     <div className={styles.card} onClick={onClick}>
-      <img src={img} alt={`${title}-poster`} className={styles.img} />
+      <img
+        src={movie.poster_path}
+        alt={`${movie.title}-poster`}
+        className={styles.img}
+      />
       <div className={styles.descriptionWrappper}>
         <div className={styles.nameWrapper}>
-          <span className={styles.title}>{title}</span>
+          <span className={styles.title}>{movie.title}</span>
           <span className={styles.year}>{year}</span>
         </div>
-        <p className={styles.description}>{shortDescription}</p>
+        <p className={styles.description}>{movie.tagline}</p>
       </div>
       <div
         className={styles.contextMenu}
@@ -78,9 +88,16 @@ export const MovieCard: FC<MovieCardProps> = ({
           </button>
         </div>
       )}
-      {showEditModal && <EditMovie title="Edit Movie" onClose={closeEdit} />}
+      {showEditModal && (
+        <EditMovie
+          title="Edit Movie"
+          onClose={closeEdit}
+          movie={movie}
+          action={Actions.Edit}
+        />
+      )}
       {showDeleteModal && (
-        <DeleteMovie onDelete={closeDelete} onCancel={closeDelete} />
+        <DeleteMovie onDelete={handleDelete} onCancel={closeDelete} />
       )}
     </div>
   );

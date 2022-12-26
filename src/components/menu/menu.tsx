@@ -1,5 +1,8 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { fetchMoviesAction } from 'redux/movies';
+
 import styles from './menu.module.scss';
 
 export enum Genres {
@@ -17,10 +20,21 @@ const menuItems = [
   Genres.Crime,
 ];
 
-const sortOptions = ['Release date', 'Title'];
+const sortOptions = [
+  { id: 'release_date', name: 'Release date' },
+  { id: 'title', name: 'Title' },
+];
 
 export const Menu = () => {
-  const [selectedMenu, setSelectedMenu] = useState<string>('all');
+  const [selectedMenu, setSelectedMenu] = useState<string>(Genres.All);
+  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const filter = selectedMenu === Genres.All ? [] : [selectedMenu];
+    dispatch(fetchMoviesAction({ sortBy, sortOrder: 'asc', filter }));
+  }, [sortBy, selectedMenu, dispatch]);
 
   return (
     <div className={styles.menuWrapper}>
@@ -43,10 +57,19 @@ export const Menu = () => {
       </nav>
       <div className={styles.sorting}>
         <div className={styles.sortBy}>Sort by</div>
-        <select className={styles.sortSelect} required>
+        <select
+          className={styles.sortSelect}
+          required
+          onChange={(e) => setSortBy(e.target.value)}
+        >
           {sortOptions.map((option) => (
-            <option key={option} value={option} className={styles.option}>
-              {option}
+            <option
+              key={option.id}
+              value={option.id}
+              className={styles.option}
+              onSelect={() => setSortBy(option.id)}
+            >
+              {option.name}
             </option>
           ))}
         </select>
