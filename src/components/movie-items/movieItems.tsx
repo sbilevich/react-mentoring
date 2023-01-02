@@ -4,10 +4,14 @@ import { FC, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 
 import styles from './movie-items.module.scss';
-import { selectMovies } from 'redux/selectors/movie';
+import { moviesSelector } from 'redux/selectors/movies';
+import { useSearchParams } from 'react-router-dom';
+import { Movie } from 'types/movie';
 
 export const MovieItems: FC = () => {
-  const movies = useAppSelector(selectMovies);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const movies = useAppSelector(moviesSelector);
 
   const dispatch = useAppDispatch();
 
@@ -19,14 +23,16 @@ export const MovieItems: FC = () => {
     return null;
   }
 
+  const handleMovieSelect = (movie: Movie) => {
+    dispatch(select(movie));
+    searchParams.set('movieId', String(movie.id));
+    setSearchParams(searchParams);
+  };
+
   return (
     <div className={styles.movies}>
       {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          onClick={() => dispatch(select(movie))}
-        />
+        <MovieCard key={movie.id} movie={movie} onClick={handleMovieSelect} />
       ))}
     </div>
   );

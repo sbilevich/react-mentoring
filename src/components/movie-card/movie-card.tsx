@@ -9,7 +9,7 @@ import styles from './movie-card.module.scss';
 
 interface MovieCardProps {
   movie: Movie;
-  onClick: () => void;
+  onClick: (movie: Movie) => void;
 }
 
 export const MovieCard: FC<MovieCardProps> = ({ movie, onClick }) => {
@@ -51,7 +51,7 @@ export const MovieCard: FC<MovieCardProps> = ({ movie, onClick }) => {
   );
 
   return (
-    <div className={styles.card} onClick={onClick}>
+    <div className={styles.card} onClick={() => onClick(movie)}>
       <img
         src={movie.poster_path}
         alt={`${movie.title}-poster`}

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchMoviesAction } from 'redux/movies';
 
@@ -12,6 +13,12 @@ export enum Genres {
   Horror = 'Horror',
   Crime = 'Crime',
 }
+
+export enum SearhParams {
+  Genre = 'genre',
+  SortBy = 'sortBy',
+}
+
 const menuItems = [
   Genres.All,
   Genres.Documentary,
@@ -26,15 +33,41 @@ const sortOptions = [
 ];
 
 export const Menu = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedMenu, setSelectedMenu] = useState<string>(Genres.All);
-  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
+  const [sortBy, setSortBy] = useState<string>('release_date');
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const genre = searchParams.get(SearhParams.Genre);
+    const sort = searchParams.get(SearhParams.SortBy);
+
+    if (genre) {
+      setSelectedMenu(genre);
+    }
+
+    if (sort) {
+      setSortBy(sort);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const filter = selectedMenu === Genres.All ? [] : [selectedMenu];
     dispatch(fetchMoviesAction({ sortBy, sortOrder: 'asc', filter }));
   }, [sortBy, selectedMenu, dispatch]);
+
+  const handleMenuClick = (item: Genres) => {
+    setSelectedMenu(item);
+    searchParams.set('genre', item);
+    setSearchParams(searchParams);
+  };
+
+  const handleSortSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value);
+    searchParams.set('sortBy', e.target.value);
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className={styles.menuWrapper}>
@@ -48,7 +81,7 @@ export const Menu = () => {
               className={classNames(styles.menuItem, {
                 [styles.active]: active,
               })}
-              onClick={() => setSelectedMenu(item)}
+              onClick={() => handleMenuClick(item)}
             >
               {item}
             </div>
@@ -60,15 +93,10 @@ export const Menu = () => {
         <select
           className={styles.sortSelect}
           required
-          onChange={(e) => setSortBy(e.target.value)}
+          onChange={handleSortSelect}
         >
           {sortOptions.map((option) => (
-            <option
-              key={option.id}
-              value={option.id}
-              className={styles.option}
-              onSelect={() => setSortBy(option.id)}
-            >
+            <option key={option.id} value={option.id} className={styles.option}>
               {option.name}
             </option>
           ))}
