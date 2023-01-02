@@ -12,7 +12,7 @@ export enum Genres {
   Horror = 'Horror',
   Crime = 'Crime',
 }
-const menu = [
+const menuItems = [
   Genres.All,
   Genres.Documentary,
   Genres.Comedy,
@@ -39,7 +39,7 @@ export const Menu = () => {
   return (
     <div className={styles.menuWrapper}>
       <nav className={styles.menuItems}>
-        {menu.map((item) => {
+        {menuItems.map((item) => {
           const active = item === selectedMenu;
 
           return (
