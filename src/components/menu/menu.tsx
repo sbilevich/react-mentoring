@@ -13,6 +13,12 @@ export enum Genres {
   Horror = 'Horror',
   Crime = 'Crime',
 }
+
+export enum SearhParams {
+  Genre = 'genre',
+  SortBy = 'sortBy',
+}
+
 const menuItems = [
   Genres.All,
   Genres.Documentary,
@@ -34,8 +40,8 @@ export const Menu = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const genre = searchParams.get('genre');
-    const sort = searchParams.get('sortBy');
+    const genre = searchParams.get(SearhParams.Genre);
+    const sort = searchParams.get(SearhParams.SortBy);
 
     if (genre) {
       setSelectedMenu(genre);
