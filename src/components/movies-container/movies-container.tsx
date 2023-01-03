@@ -2,12 +2,12 @@ import { ErrorBoundary } from 'components/error-boundary/error-boundary';
 import { Menu } from 'components/menu/menu';
 import { MovieItems } from 'components/movie-items/movieItems';
 import { useAppSelector } from 'redux/hooks';
-import { moviesCountSelector } from 'redux/selectors/moviesCount';
+import { selectMoviesCount } from 'redux/selectors/movie';
 
 import styles from './movies-container.module.scss';
 
 export const MoviesContainer = () => {
-  const moviesCount = useAppSelector(moviesCountSelector);
+  const moviesCount = useAppSelector(selectMoviesCount);
 
   return (
     <div className={styles.moviesContainer}>

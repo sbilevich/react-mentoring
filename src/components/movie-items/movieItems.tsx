@@ -4,14 +4,14 @@ import { FC, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 
 import styles from './movie-items.module.scss';
-import { moviesSelector } from 'redux/selectors/movies';
 import { useSearchParams } from 'react-router-dom';
 import { Movie } from 'types/movie';
+import { selectMovies } from 'redux/selectors/movie';
 
 export const MovieItems: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const movies = useAppSelector(moviesSelector);
+  const movies = useAppSelector(selectMovies);
 
   const dispatch = useAppDispatch();
 

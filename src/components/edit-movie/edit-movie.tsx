@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import { AppButton } from 'components/app-button/app-button';
 import { Genres } from 'components/menu/menu';
 import { Modal } from 'components/modal/modal';
-import { useState } from 'react';
-import { Field, Form } from 'react-final-form';
+import { useMemo } from 'react';
+import { Field, Form, FieldRenderProps } from 'react-final-form';
 import { useAppDispatch } from 'redux/hooks';
 import { addMovieAction, updateMovieAction } from 'redux/movies';
 import { Movie } from 'types/movie';
@@ -16,16 +16,6 @@ export enum Actions {
   Edit = 'edit',
 }
 
-// enum MovieFormValues {
-//   Title = 'title',
-//   ReleaseDate = 'release_date',
-//   PosterPath = 'poster_path',
-//   Genres = 'genres',
-//   VoteAverage = 'vote_average',
-//   Runtime = 'runtime',
-//   Overview = 'overview',
-// }
-
 interface Props {
   title: string;
   movie?: Movie;
@@ -33,7 +23,7 @@ interface Props {
   action: Actions;
 }
 
-interface MovieFormValues {
+interface MovieFields {
   title: string;
   release_date: string;
   poster_path: string;
@@ -46,14 +36,13 @@ interface MovieFormValues {
 export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   const dispatch = useAppDispatch();
 
-  const [movieData, setMovieData] = useState<Movie | undefined>(movie);
-  const onSubmit = (values: MovieFormValues) => {
+  const onSubmit = (values: MovieFields) => {
     if (!values || !isValidMovie(values)) {
       return;
     }
 
-    if (action === Actions.Add && movieData) {
-      dispatch(addMovieAction(movieData));
+    if (action === Actions.Add) {
+      dispatch(addMovieAction(values));
     }
     if (movie?.id) {
       dispatch(updateMovieAction({ ...values, id: movie.id }));
@@ -63,152 +52,155 @@ export const EditMovie = ({ title, movie, onClose, action }: Props) => {
   const handleReset = () => {
     onClose();
   };
-  const required = (value: any) => (value ? undefined : 'Required');
+  const getValidator = (value: string | number | string[] | undefined) =>
+    value ? undefined : 'Required';
 
-  const initialValues = {
-    title: movie?.title,
-    release_date: movie?.release_date,
-    poster_path: movie?.poster_path,
-    vote_average: movie?.vote_average,
-    genres: movie?.genres,
-    runtime: movie?.runtime,
-    overview: movie?.overview,
+  const initialValues = useMemo(
+    () => ({
+      title: movie?.title,
+      release_date: movie?.release_date,
+      poster_path: movie?.poster_path,
+      vote_average: movie?.vote_average,
+      genres: movie?.genres,
+      runtime: movie?.runtime,
+      overview: movie?.overview,
+    }),
+    [movie],
+  );
+
+  const TextFieldAdapter = ({
+    input,
+    meta,
+    placeholder,
+    className,
+    type = 'text',
+  }: FieldRenderProps<string | number>) => {
+    return (
+      <>
+        <input
+          {...input}
+          className={classNames(className, styles.input)}
+          type={type}
+          placeholder={placeholder}
+        />
+        {meta.error && meta.touched && <span>{meta.error}</span>}
+      </>
+    );
   };
 
   return (
-    <Form onSubmit={onSubmit} initialValues={initialValues}>
-      {({ handleSubmit }) => {
-        return (
-          <form onSubmit={handleSubmit}>
-            <div className={styles.title}>{title}</div>
-            <div className={styles.content}>
-              <div className={styles.textWrapper}>
-                <label className={styles.label}>Title</label>
-                <Field name="title" validate={required}>
-                  {({ input, meta }) => (
-                    <>
-                      <input
+    <Modal onClose={handleReset}>
+      <Form onSubmit={onSubmit} initialValues={initialValues}>
+        {({ handleSubmit }) => {
+          return (
+            <form onSubmit={handleSubmit}>
+              <div className={styles.title}>{title}</div>
+              <div className={styles.content}>
+                <div className={styles.textWrapper}>
+                  <label className={styles.label}>Title</label>
+                  <Field
+                    name="title"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.firstCol}
+                  />
+                </div>
+                <div className={styles.textWrapper}>
+                  <label className={styles.label}>Release Date</label>
+                  <Field
+                    name="release_date"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.secondCol}
+                    placeholder="Select Date"
+                    type="date"
+                  />
+                </div>
+              </div>
+              <div className={styles.content}>
+                <div className={styles.textWrapper}>
+                  <label className={styles.label}>Movie URL</label>
+                  <Field
+                    name="poster_path"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.firstCol}
+                    placeholder="http://"
+                  />
+                </div>
+                <div className={styles.textWrapper}>
+                  <label className={styles.label}>Rating</label>
+                  <Field
+                    name="vote_average"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.secondCol}
+                    placeholder="7.8"
+                    type="number"
+                  />
+                </div>
+              </div>
+              <div className={styles.content}>
+                <div className={styles.textWrapper}>
+                  <label className={styles.label}>Genre</label>
+                  <Field name="genres">
+                    {({ input }) => (
+                      <select
                         {...input}
                         className={classNames(styles.firstCol, styles.input)}
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </>
-                  )}
-                </Field>
+                      >
+                        {genres.map((genre) => (
+                          <option key={genre} value={genre}>
+                            {genre}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </Field>
+                </div>
+                <div className={styles.textWrapper}>
+                  <label className={styles.label}>Runtime</label>
+                  <Field
+                    name="runtime"
+                    validate={getValidator}
+                    component={TextFieldAdapter}
+                    className={styles.secondCol}
+                    placeholder="minutes"
+                    type="number"
+                  />
+                </div>
               </div>
-              <div className={styles.textWrapper}>
-                <label className={styles.label}>Release Date</label>
-                <Field name="release_date" validate={required}>
-                  {({ input, meta }) => (
-                    <>
-                      <input
-                        {...input}
-                        type="date"
-                        className={classNames(styles.secondCol, styles.input)}
-                        placeholder="Select Date"
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </>
-                  )}
-                </Field>
+              <div className={styles.content}>
+                <div className={styles.textWrapper}>
+                  <label className={styles.label}>Description</label>
+                  <Field name="overview" validate={getValidator}>
+                    {({ input, meta }: FieldRenderProps<string>) => (
+                      <>
+                        <textarea
+                          {...input}
+                          className={classNames(styles.textarea)}
+                        />
+                        {meta.error && meta.touched && (
+                          <span>{meta.error}</span>
+                        )}
+                      </>
+                    )}
+                  </Field>
+                </div>
               </div>
-            </div>
-            <div className={styles.content}>
-              <div className={styles.textWrapper}>
-                <label className={styles.label}>Movie URL</label>
-                <Field name="poster_path" validate={required}>
-                  {({ input, meta }) => (
-                    <>
-                      <input
-                        {...input}
-                        className={classNames(styles.firstCol, styles.input)}
-                        placeholder="http://"
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </>
-                  )}
-                </Field>
+              <div className={styles.buttons}>
+                <AppButton
+                  text="Reset"
+                  className={styles.reset}
+                  onButtonClick={handleReset}
+                />
+                <AppButton text="Submit" type="submit" />
               </div>
-              <div className={styles.textWrapper}>
-                <label className={styles.label}>Rating</label>
-                <Field name="vote_average" validate={required}>
-                  {({ input, meta }) => (
-                    <>
-                      <input
-                        {...input}
-                        type="number"
-                        className={classNames(styles.secondCol, styles.input)}
-                        placeholder="7.8"
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </>
-                  )}
-                </Field>
-              </div>
-            </div>
-            <div className={styles.content}>
-              <div className={styles.textWrapper}>
-                <label className={styles.label}>Genre</label>
-                <Field name="genres">
-                  {({ input }) => (
-                    <select
-                      {...input}
-                      className={classNames(styles.firstCol, styles.input)}
-                    >
-                      {genres.map((genre) => (
-                        <option key={genre} value={genre}>
-                          {genre}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </Field>
-              </div>
-              <div className={styles.textWrapper}>
-                <label className={styles.label}>Runtime</label>
-                <Field name="runtime" validate={required}>
-                  {({ input, meta }) => (
-                    <>
-                      <input
-                        {...input}
-                        type="number"
-                        className={classNames(styles.secondCol, styles.input)}
-                        placeholder="minutes"
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </>
-                  )}
-                </Field>
-              </div>
-            </div>
-            <div className={styles.content}>
-              <div className={styles.textWrapper}>
-                <label className={styles.label}>Description</label>
-                <Field name="overview" validate={required}>
-                  {({ input, meta }) => (
-                    <>
-                      <textarea
-                        {...input}
-                        className={classNames(styles.textarea)}
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </>
-                  )}
-                </Field>
-              </div>
-            </div>
-            <div className={styles.buttons}>
-              <AppButton
-                text="Reset"
-                className={styles.reset}
-                onButtonClick={handleReset}
-              />
-              <AppButton text="Submit" type="submit" />
-            </div>
-          </form>
-        );
-      }}
-    </Form>
+            </form>
+          );
+        }}
+      </Form>
+    </Modal>
   );
 };
 
