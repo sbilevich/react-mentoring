@@ -4,7 +4,7 @@ import { Movie } from 'types/movie';
 import { fetchJson, Method } from './fetch';
 
 const URL = process.env.REACT_APP_BACK_URL;
-interface MoviesState {
+export interface MoviesState {
   movies: Movie[];
   selectedMovie?: Movie;
   moviesCount: number;
