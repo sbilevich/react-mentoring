@@ -12,11 +12,11 @@ describe('Search component tests', () => {
 
   it('should call on search with userText', () => {
     const onSearch = jest.fn();
-
     render(<SearchView onSearch={onSearch} />);
     const input = screen.getByRole('textbox');
-    userEvent.type(input, 'test');
     const button = screen.getByRole('button');
+
+    userEvent.type(input, 'test');
     userEvent.click(button);
 
     expect(onSearch).toHaveBeenCalledWith('test');
