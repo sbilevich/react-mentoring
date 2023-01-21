@@ -27,5 +27,6 @@ module.exports = {
       { blankLine: 'always', prev: '*', next: 'return' },
     ],
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    '@typescript-eslint/no-namespace': 'off',
   },
 };

@@ -8,8 +8,9 @@ const state: MoviesState = {
 
 describe('movieSelect', () => {
   test('returns correct value', () => {
+    const localState = { ...state };
     const movieState = moviesSlice.reducer(
-      state,
+      localState,
       moviesSlice.actions.select(mockMovie),
     );
     expect(movieState.selectedMovie).toEqual(mockMovie);

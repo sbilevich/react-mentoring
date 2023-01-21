@@ -1,17 +1,18 @@
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SearchView } from './search';
+import { SearchView } from './search-view';
 
 const noop = jest.fn();
 
-describe('Search', () => {
-  test('renders SearchSnapshot', () => {
+describe('Search component tests', () => {
+  test('should render SearchSnapshot', () => {
     const { asFragment } = render(<SearchView onSearch={noop} />);
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should call on search with userText', () => {
     const onSearch = jest.fn();
+
     render(<SearchView onSearch={onSearch} />);
     const input = screen.getByRole('textbox');
     userEvent.type(input, 'test');
@@ -21,7 +22,7 @@ describe('Search', () => {
     expect(onSearch).toHaveBeenCalledWith('test');
   });
 
-  it('should set value to input if searchQuery', async () => {
+  it('should set value to input if "searchQuery" prop exists and not empty', async () => {
     render(<SearchView onSearch={noop} searchQuery="testQuery" />);
     const inputText = screen.queryByDisplayValue('testQuery');
 
